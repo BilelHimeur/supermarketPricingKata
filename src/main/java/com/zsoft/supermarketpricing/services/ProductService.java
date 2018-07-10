@@ -18,6 +18,6 @@ public class ProductService {
     }
 
     public Optional<Product> getProductById(long productId) {
-        return null;
+        return productRepository.findById(productId);
     }
 }
