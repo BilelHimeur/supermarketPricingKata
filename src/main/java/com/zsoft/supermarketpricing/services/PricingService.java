@@ -2,6 +2,7 @@ package com.zsoft.supermarketpricing.services;
 
 import com.zsoft.supermarketpricing.exceptions.ProductNotFoundException;
 import com.zsoft.supermarketpricing.models.Product;
+import com.zsoft.supermarketpricing.models.enums.Formula;
 import com.zsoft.supermarketpricing.models.enums.Unit;
 import com.zsoft.supermarketpricing.utils.UnitConvertor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,10 @@ public class PricingService {
     public double getPriceByWeight(long productId, Float weight, Unit unit) throws ProductNotFoundException {
         Product product = productService.getProductById(productId).orElseThrow(() -> new ProductNotFoundException(productId));
         return product.getPrice().getValue() * convertor.apply(unit, product.getPrice().getUnit()) * weight;
+    }
+
+    public double getPriceUsingFormula(long productId, Integer quantity, Formula formula) {
+        return 0.0;
     }
 
 }
