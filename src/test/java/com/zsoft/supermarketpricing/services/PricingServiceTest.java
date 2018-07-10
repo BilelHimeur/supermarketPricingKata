@@ -47,5 +47,43 @@ public class PricingServiceTest {
         assertThat(price, is(2.5 * 3));
     }
 
+    @Test
+    public void getPriceByOunce() throws Exception {
+        // given
+        Long productId = 111L;
+        String productName = "product1";
+        Price pricePerPound = new Price(2.5, POUND);
+        Float weight = 32F; // 32 OUNCE
+        Product product = new Product();
+        product.setId(productId);
+        product.setName(productName);
+        product.setPrice(pricePerPound);
+        when(productService.getProductById(productId)).thenReturn(Optional.of(product));
 
+        // when
+        double price = pricingService.getPriceByWeight(productId, weight, OUNCE);
+
+        // then
+        assertThat(price, is(5.0));
+    }
+
+    @Test
+    public void getPriceByPound() throws Exception {
+        // given
+        Long productId = 111L;
+        String productName = "product1";
+        Price pricePerOunce = new Price(2.5, OUNCE);
+        Float weight = 3f; // 3 POUND
+        Product product = new Product();
+        product.setId(productId);
+        product.setName(productName);
+        product.setPrice(pricePerOunce);
+        when(productService.getProductById(productId)).thenReturn(Optional.of(product));
+
+        // when
+        double price = pricingService.getPriceByWeight(productId, weight, POUND);
+
+        // then
+        assertThat(price, is(120.0));
+    }
 }
