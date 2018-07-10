@@ -1,5 +1,6 @@
 package com.zsoft.supermarketpricing.services;
 
+import com.zsoft.supermarketpricing.exceptions.FormulaNotFoundException;
 import com.zsoft.supermarketpricing.exceptions.ProductNotFoundException;
 import com.zsoft.supermarketpricing.models.Product;
 import com.zsoft.supermarketpricing.models.enums.Formula;
@@ -8,17 +9,21 @@ import com.zsoft.supermarketpricing.utils.UnitConvertor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.function.BiFunction;
+
 
 @Service
 public class PricingService {
 
     private ProductService productService;
     private UnitConvertor convertor;
-
+    private FormulaService formulaService;
 
     @Autowired
-    public PricingService(ProductService productService) {
+    public PricingService(ProductService productService, UnitConvertor convertor, FormulaService formulaService) {
         this.productService = productService;
+        this.convertor = convertor;
+        this.formulaService = formulaService;
     }
 
     public double getSimplePrice(long productId, int quantity) throws ProductNotFoundException {
@@ -32,8 +37,10 @@ public class PricingService {
         return product.getPrice().getValue() * convertor.apply(unit, product.getPrice().getUnit()) * weight;
     }
 
-    public double getPriceUsingFormula(long productId, Integer quantity, Formula formula) {
-        return 0.0;
+    public double getPriceUsingFormula(long productId, Float quantity, Formula formula) throws FormulaNotFoundException, ProductNotFoundException {
+        Product product = productService.getProductById(productId).orElseThrow(() -> new ProductNotFoundException(productId));
+        BiFunction<Float, Double, Double> customPricerByFormula = formulaService.getCustomPricerByFormula(formula);
+        return customPricerByFormula.apply(quantity, product.getPrice().getValue());
     }
 
 }
