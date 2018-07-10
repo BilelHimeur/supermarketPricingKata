@@ -22,7 +22,7 @@ public class FormulaServiceTest {
     @Test
     public void getCustomPricerByFormulaTest() throws FormulaNotFoundException {
         //  when
-        Double price = formulaService.getCustomPricerByFormula(THREE_FOR_A_DOLLAR).apply(7F, 2.0);
+        Double price = formulaService.getCustomPricerByFormula(THREE_FOR_A_DOLLAR).apply(7, 2.0);
         //  then
         assertThat(price, is(4.0));
     }

@@ -1,6 +1,8 @@
 package com.zsoft.supermarketpricing.services;
 
 import com.zsoft.supermarketpricing.SupermarketPricingApplication;
+import com.zsoft.supermarketpricing.exceptions.FormulaNotFoundException;
+import com.zsoft.supermarketpricing.exceptions.ProductNotFoundException;
 import com.zsoft.supermarketpricing.models.Price;
 import com.zsoft.supermarketpricing.models.Product;
 import org.junit.Test;
@@ -89,7 +91,7 @@ public class PricingServiceTest {
     }
 
     @Test
-    public void getPriceUsingThreeForADollarFormula() {
+    public void getPriceUsingThreeForADollarFormula() throws ProductNotFoundException, FormulaNotFoundException {
         // given
         Long productId = 111L;
         String productName = "product1";

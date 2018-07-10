@@ -9,7 +9,7 @@ import java.util.function.BiFunction;
 @Service
 public class FormulaService {
 
-    public BiFunction<Float, Double, Double> getCustomPricerByFormula(Formula formula) throws FormulaNotFoundException {
+    public BiFunction<Integer, Double, Double> getCustomPricerByFormula(Formula formula) throws FormulaNotFoundException {
         if (formula == null) {
             throw new NullPointerException("formula is null.");
         }

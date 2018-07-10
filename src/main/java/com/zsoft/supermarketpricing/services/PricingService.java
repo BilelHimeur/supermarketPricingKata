@@ -37,9 +37,9 @@ public class PricingService {
         return product.getPrice().getValue() * convertor.apply(unit, product.getPrice().getUnit()) * weight;
     }
 
-    public double getPriceUsingFormula(long productId, Float quantity, Formula formula) throws FormulaNotFoundException, ProductNotFoundException {
+    public double getPriceUsingFormula(long productId, Integer quantity, Formula formula) throws FormulaNotFoundException, ProductNotFoundException {
         Product product = productService.getProductById(productId).orElseThrow(() -> new ProductNotFoundException(productId));
-        BiFunction<Float, Double, Double> customPricerByFormula = formulaService.getCustomPricerByFormula(formula);
+        BiFunction<Integer, Double, Double> customPricerByFormula = formulaService.getCustomPricerByFormula(formula);
         return customPricerByFormula.apply(quantity, product.getPrice().getValue());
     }
 
